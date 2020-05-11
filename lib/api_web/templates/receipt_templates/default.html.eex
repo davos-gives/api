@@ -1,0 +1,73 @@
+<div class="receipts">
+  <aside class="">
+    <address id="from">
+      <h1 class="primary-text capitalize my-12 font-black" id="header"><%= @template.header %></h1>
+      <p class="text-grey-receipts leading-normal" id="description"><%= raw @template.description %></p>
+      <img id="signature" src="<%= @template.signature %>" class="w-32" />
+      <p class="text-grey-receipts leading-normal text-sm italic">Wayne Hartrick, President</p>
+    </address>
+  </aside>
+
+  <dl id="informations">
+    <img id="logo" src="<%= @template.logo %>" class="w-32 mt-4"/>
+  </dl>
+
+
+  <aside class="form-header">
+    <address id="from">
+      <div class="text-grey-receipts">
+        <p>Official Receipt as below:</p>
+      </div>
+    </address>
+    <div id="powered-by" class="text-grey-receipts pt-4"><span>Powered by <img src="<%= Routes.static_path(@conn, "/images/davos-logo.png") %>" class="w-16 "/></div>
+  </aside>
+  <table id="total" class="w-full tertiary-background-color tertiary-border-color">
+    <tbody>
+      <tr>
+        <td class="name"><span class="uppercase font-thin text-xs quaternary-text">Charitable Regis #</span></td>
+        <td><span class="font-bold text-sm quaternary-text">#119219814 RR 0001<span></td>
+        <td class="name"><span class="uppercase font-thin text-xs text-white">Name</span></td>
+        <td><span class="font-bold text-sm quaternary-text">Ian Knauer<span></td>
+      </tr>
+      <tr>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Receipt #</span></td><td><span class="font-bold text-sm quaternary-text">#100500<span></td>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Street and Suite</span></td><td><span class="font-bold text-sm quaternary-text">1120 thomson road<span></td>
+      </tr>
+      <tr>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Date of issue</span></td><td><span class="font-bold text-sm quaternary-text">26-12-2017</span></td>
+        <td><span class="uppercase font-thin text-xs quaternary-text">City, Province</span></td><td><span class="font-bold text-sm quaternary-text">Anmore, BC<span></td>
+      </tr>
+      <tr>
+        <td class="lined">
+          <span class="uppercase font-thin text-xs quaternary-text">Place of Issue</span></td><td class="lined"><span class="font-bold text-sm quaternary-text">Vancouver, Canada<span>
+        </td>
+        <td class="lined">
+          <span class="uppercase font-thin text-xs quaternary-text">Country</span></td><td class="lined"><span class="font-bold text-sm quaternary-text">Canada<span>
+        </td>
+      </tr>
+      <tr>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Received on</span></td><td><span class="font-bold text-sm quaternary-text">26-12-2017<span></td>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Amount Received</span></td><td><span class="font-bold text-sm quaternary-text">$200.00<span></td>
+      </tr>
+      <tr>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Received the Sum of</span></td><td><span class="font-bold text-sm quaternary-text">$200.00<span></td>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Value of advantage</span></td><td><span class="font-bold text-sm quaternary-text">$0.00<span></td>
+      </tr>
+      <tr>
+        <td></td><td></td>
+        <td><span class="uppercase font-thin text-xs quaternary-text">Eligible amount of gift for tax purposes</span></td><td> <span class="font-bold text-sm quaternary-text">$200</span></td>
+      </tr>
+    </tbody>
+  </table>
+    <p class="text-xs text-center text-grey-receipts">this is an official receipt for income tax purposes. Canada Revenue Agency Canada Revenue Agency www.cra-arc.gc.ca/charitiesandgiving</p>
+    <div>
+    <aside class="footer">
+      <address id="from">
+        <div class="text-grey-receipts">
+          <p>(000) 000 0000<br />contact@yourmail.org<br />www.yourwebsite.org</p>
+        </div>
+      </address>
+
+      <img id="logo2" src="<%= @template.logo %>" class="h-24 w-auto mt-10"/>
+    </aside>
+</div>

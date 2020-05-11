@@ -1,4 +1,4 @@
-defmodule Api.Receipt.ReceiptStack do
+defmodule Api.Donation.ReceiptStack do
   use Ecto.Schema
 
   import Ecto.Changeset

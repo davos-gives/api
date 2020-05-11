@@ -43,4 +43,6 @@ defmodule ApiWeb.Endpoint do
     signing_salt: "CyOBCEYe"
 
   plug ApiWeb.Router
+
+  socket "/live", Phoenix.LiveView.Socket
 end

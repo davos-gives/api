@@ -17,9 +17,6 @@ defmodule Api.Organization.User do
     field :email, :string
     field :fname, :string
     field :lname, :string
-    field :password_hash, :string
-    field :password, :string, virtual: true
-    field :password_confirmation, :string, virtual: true
 
     belongs_to :organization, Organization
     timestamps()

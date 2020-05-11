@@ -1,4 +1,4 @@
-defmodule Api.Receipt do
+defmodule Api.Donation.Receipt do
   use Ecto.Schema
 
   import Ecto.Query
@@ -7,8 +7,8 @@ defmodule Api.Receipt do
 
   alias Api.Repo
 
-  alias Api.Receipt
-  alias Api.Receipt.ReceiptStack
+  alias Api.Donation.Receipt
+  alias Api.Donation.ReceiptStack
 
   import IEx
 
@@ -87,7 +87,7 @@ defmodule Api.Receipt do
       new_receipt =
         %Receipt{}
         |> Receipt.changeset(attrs)
-        |> Repo.insert()
+        |> Repo.insert(Triplex.to_prefix("testing_tenant"))
     end)
   end
 
@@ -99,12 +99,12 @@ defmodule Api.Receipt do
 
   def get_receipt_stack!(id) do
     ReceiptStack
-    |> Repo.get!(id)
+    |> Repo.get!(id, Triplex.to_prefix("testing_tenant"))
   end
 
   def get_receipt!(id) do
     Receipt
-    |> Repo.get!(id)
+    |> Repo.get!(id, Triplex.to_prefix("testing_tenant"))
   end
 
   def list_receipts(), do: Repo.all(Receipt)
@@ -127,7 +127,7 @@ defmodule Api.Receipt do
 
       Receipt.get_receipt_stack!(1)
       |> ReceiptStack.changeset(attrs)
-      |> Repo.update()
+      |> Repo.update(Triplex.to_prefix("testing_tenant"))
     end)
   end
 end

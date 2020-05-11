@@ -1,4 +1,4 @@
-defmodule Api.Donor do
+defmodule Api.Donation.Donor do
   use Ecto.Schema
 
   import Ecto.Changeset
@@ -7,7 +7,7 @@ defmodule Api.Donor do
   alias Ecto.Multi
 
   alias Api.Repo
-  alias Api.Donor
+  alias Api.Donation.Donor
 
   import Ecto.Query
   import IEx

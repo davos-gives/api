@@ -24,6 +24,41 @@ defmodule ApiWeb do
       import Plug.Conn
       import ApiWeb.Gettext
       alias ApiWeb.Router.Helpers, as: Routes
+
+      def authenticate_user(conn, _params) do
+        try do
+          ["Bearer " <> token] = get_req_header(conn, "authorization")
+
+          verified_token =
+            token
+            |> Joken.token()
+            |> Joken.with_signer(
+              Joken.hs512(Application.get_env(:davos_charity_api, :jwt_secret))
+            )
+            |> Joken.verify()
+
+          %{"sub" => user_id} = verified_token.claims
+
+          IO.puts(user_id)
+
+          user = Management.get_user!(user_id)
+
+          params =
+            Map.get(conn, :params)
+            |> Map.put(:current_user, user)
+
+          conn
+          |> Map.put(:params, params)
+        rescue
+          _err ->
+            conn
+            |> put_status(:unauthorized)
+            |> render(DavosCharityApiWeb.ErrorView, "401.json-api", %{
+              detail: "User must be logged in to view this resource"
+            })
+            |> halt
+        end
+      end
     end
   end
 
