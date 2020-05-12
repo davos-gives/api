@@ -1,0 +1,79 @@
+<div class="receipts">
+  <div class="flex h-56 mx-10 justify-between"> 
+    <h1 class="primary-text capitalize font-black text-3xl self-end"><%= @template.header %></h1>
+    <img id="logo" src="<%= @template.logo %>" class="w-48 mt-4 self-start"/>
+
+  </div>
+  <div class="mx-10 mt-8 py-4">
+    <p class="texy-gray-700 leading-normal text-sm" id="description"><%= raw @template.description %></p>
+    <img id="signature" src="<%= @template.signature %>" class="w-32" />
+    <p class="texy-gray-700 leading-normal text-sm italic">Wayne Hartrick, CEO, Barks & Meows Shelter</p>
+  </div>
+
+
+  <aside class="form-header mx-10 mt-10 flex justify-between content-center mb-2">
+    <address id="from">
+      <div class="text-sm texy-gray-700">
+        <p>Official Receipt as below:</p>
+      </div>
+    </address>
+    <div id="powered-by" class="inline-flex text-sm content-center texy-gray-700"><span>Powered by</span> <img class="-mt-1 object-contain w-12" src="<%= @template.davos %>" /></div>
+  </aside>
+  <table class="w-full tertiary-background-color tertiary-border-color px-5 py-5 table-fixed">
+    <tbody>
+      <tr class="">
+        <td class="w-1/4 px-8 pt-8 pb-1"><span class="uppercase font-thin text-xs quaternary-text">Charitable Regis #</span></td>
+        <td class="w-1/4 px-4 pt-8 pb-1"><span class="font-bold text-sm quaternary-text">#119219814 RR 0001<span></td>
+        <td class="w-1/4 px-4 pt-8 pb-1"><span class="uppercase font-thin text-xs text-white">Name</span></td>
+        <td class="w-1/4 px-4 pt-8 pb-1"><span class="font-bold text-sm quaternary-text capitalize"><%= @donation.first_name %> <%=@donation.last_name %><span></td>
+      </tr>
+      <tr class="">
+        <td class="w-1/4 px-8 py-1"><span class="uppercase font-thin text-xs quaternary-text">Receipt #</span></td>
+        <td class="w-1/4 px-4 py-1"><span class="font-bold text-sm quaternary-text">#100500<span></td>
+        <td class="w-1/4 px-4 py-1"><span class="uppercase font-thin text-xs quaternary-text">Street and Suite</span></td>
+        <td class="w-1/4 px-4 py-1"><span class="font-bold text-sm quaternary-text"><%= @donation.address2 %> <%= @donation.address1 %><span></td>
+      </tr>
+      <tr class="">
+        <td class="w-1/4 px-8 py-1"><span class="uppercase font-thin text-xs quaternary-text">Date of issue</span></td>
+        <td class="w-1/4 px-4 py-1"><span class="font-bold text-sm quaternary-text"><%= datetime_to_date(@donation.inserted_at) %></span></td>
+        <td class="w-1/4 px-4 py-1"><span class="uppercase font-thin text-xs quaternary-text">City, Province</span></td>
+        <td class="w-1/4 px-4 py-1"><span class="font-bold text-sm quaternary-text capitalize"><%= @donation.city %>, <%= @donation.state %>, <%= @donation.zip %><span></td>
+      </tr>
+      <tr class="">
+        <td class="w-1/4 px-8 py-1"><span class="uppercase font-thin text-xs quaternary-text">Place of Issue</span></td>
+        <td class="w-1/4 px-4 py-1"><span class="font-bold text-sm quaternary-text">Vancouver, Canada<span></td>
+        <td class="w-1/4 px-4 py-1"><span class="uppercase font-thin text-xs quaternary-text">Country</span></td>
+        <td class="w-1/4 px-4 py-1"><span class="font-bold text-sm quaternary-text">Canada<span></td>
+      </tr>
+      <tr class="">
+        <td class="w-1/4 px-8 py-1 pt-6"><span class="uppercase font-thin text-xs quaternary-text">Received on</span></td>
+        <td class="w-1/4 px-4 py-1 pt-6"><span class="font-bold text-sm quaternary-text"><%= @donation.nationbuilder_created_at %><span></td>
+        <td class="w-1/4 px-4 py-1 pt-6"><span class="uppercase font-thin text-xs quaternary-text">Amount Received</span></td>
+        <td class="w-1/4 px-4 py-1 pt-6"><span class="font-bold text-sm quaternary-text"><%= cents_to_dollars(@donation.amount_in_cents) %><span></td>
+      </tr>
+      <tr class="">
+        <td class="w-1/4 px-8 py-1"><span class="uppercase font-thin text-xs quaternary-text">Received the Sum of</span></td>
+        <td class="w-1/4 px-4 py-1"><span class="font-bold text-sm quaternary-text"><%= cents_to_dollars(@donation.amount_in_cents) %><span></td>
+        <td class="w-1/4 px-4 py-1"><span class="uppercase font-thin text-xs quaternary-text">Value of advantage</span></td>
+        <td class="w-1/4 px-4 py-1"><span class="font-bold text-sm quaternary-text"><%= cents_to_dollars(0) %><span></td>
+      </tr>
+      <tr class="">
+        <td class="w-1/4 px-8 pt-1 pb-8"></td>
+        <td class="w-1/4 px-4 py-1 pb-8"></td>
+        <td class="w-1/4 px-4 py-1 pb-8"><span class="uppercase font-thin text-xs quaternary-text">Eligible amount of gift for tax purposes</span></td>
+        <td class="w-1/4 px-4 py-1 pb-8"><span class="font-bold text-sm quaternary-text"><%= cents_to_dollars(@donation.amount_in_cents) %></span></td>
+      </tr>
+    </tbody>
+  </table>
+    <p class="text-xs text-center text-grey-600 mx-16 mt-4">this is an official receipt for income tax purposes. Canada Revenue Agency Canada Revenue Agency www.cra-arc.gc.ca/charitiesandgiving</p>
+    <div>
+    <aside class="footer flex justify-between mx-16 content-center mt-6 text-sm">
+      <address id="from">
+        <div class="text-grey-700">
+          <p>(604) 123 4567<br />ian@barks-meows.org<br />barks-moeows.org</p>
+        </div>
+      </address>
+
+      <img id="logo2" src="<%= @template.logo %>" class="h-24 w-auto"/>
+    </aside>
+</div>

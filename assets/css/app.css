@@ -1,3 +1,83 @@
-/* This file is for your main application css. */
+:root {
+  --primary: #E5AD23;
+  --secondary: #411E82;
+  --tertiary: #BB8B0E;
+  --quaternary: #FFFFFF;
+  --quinary: #666271;
+  --font: "Open Sans";
+}
 
-@import "./phoenix.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.primary-background-color {
+  background-color: var(--primary);
+}
+
+.primary-border-color {
+  border-color: var(--primary);
+}
+
+.primary-text {
+  color: var(--primary);
+}
+
+.border-primary {
+  border-color: var(--primary);
+}
+
+.secondary-background-color {
+  background-color: var(--secondary);
+}
+
+.secondary-border-color {
+  border-color: var(--secondary);
+}
+
+.secondary-text {
+  color: var(--secondary);
+}
+
+.tertiary-background-color {
+  background-color: var(--tertiary);
+}
+
+.tertiary-border-color {
+  border-color: var(--tertiary);
+}
+
+.tertiary-text {
+  color: var(--tertiary);
+}
+
+.quaternary-background-color {
+  background-color: var(--quaternary);
+}
+
+.quaternary-border-color {
+  border-color: var(--quaternary);
+}
+
+.quaternary-text {
+  color: var(--quaternary);
+}
+
+.quinary-background-color {
+  background-color: var(--quinary);
+}
+
+.quinary-border-color {
+  border-color: var(--quinary);
+}
+
+.quinary-text {
+  color: var(--quinary);
+}
+
+@import url("https://fonts.googleapis.com/css?family=Pacifico|Source+Sans+Pro:400,700");
+
+.receipts{
+  font-family: Source Sans Pro; 
+}

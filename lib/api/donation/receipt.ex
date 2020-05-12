@@ -9,6 +9,7 @@ defmodule Api.Donation.Receipt do
 
   alias Api.Donation.Receipt
   alias Api.Donation.ReceiptStack
+  alias Api.Donation
 
   import IEx
 
@@ -28,7 +29,7 @@ defmodule Api.Donation.Receipt do
     field :advantage_value, :integer
     field :amount_eligable_for_tax_purposes, :integer
     field :url, :string
-    belongs_to :donor, Donor
+    belongs_to :donation, Donation
 
     timestamps()
   end
@@ -50,7 +51,7 @@ defmodule Api.Donation.Receipt do
       :city,
       :advantage_value,
       :amount_eligable_for_tax_purposes,
-      :donor_id
+      :donation_id
     ])
     |> validate_required([
       :charitable_registration_number,
@@ -65,7 +66,7 @@ defmodule Api.Donation.Receipt do
       :advantage_value,
       :amount_eligable_for_tax_purposes,
       :payment_amount,
-      :donor_id
+      :donation_id
     ])
   end
 

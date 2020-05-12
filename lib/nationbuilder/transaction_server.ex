@@ -7,8 +7,6 @@ defmodule Api.Nationbuilder.TransactionServer do
   alias Api.Nationbuilder.Nationbuilder
   alias Api.Donation
 
-  import IEx
-
   defmodule State do
     defstruct token: nil,
               backloaded: false,
@@ -77,11 +75,6 @@ defmodule Api.Nationbuilder.TransactionServer do
     Process.send_after(self(), :search, @refresh_interval)
   end
 
-  # def search(%{}) when backloaded == true do
-  #   # build logic similar to backfill to pull in data for searching
-  #   # will need to include second function to include the pagination data
-  # end
-
   def search(
         %{
           token: token,
@@ -94,7 +87,12 @@ defmodule Api.Nationbuilder.TransactionServer do
     client = Nationbuilder.client(token)
 
     {:ok, results} =
-      Nationbuilder.search_organization_donations(client, last_transaction_datetime)
+      Nationbuilder.search_organization_donations_with_pagination(
+        client,
+        last_transaction_datetime,
+        pagination_nonce,
+        pagination_token
+      )
 
     reversedResults = Enum.reverse(results.body["results"])
 
@@ -213,6 +211,7 @@ defmodule Api.Nationbuilder.TransactionServer do
   defp create_transactions([head | tail], state) do
     head = flatten(head)
     {:ok, donation} = Donation.create_donation(state.tenant_name, head)
+    Api.Receipt.generate_receipt(donation)
     new_state = %{state | last_transaction_datetime: head["created_at"]}
     create_transactions(tail, new_state)
   end
