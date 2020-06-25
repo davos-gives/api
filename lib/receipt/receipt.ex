@@ -1,4 +1,7 @@
 defmodule Api.Receipt do
+
+  require IEx;
+
   # TODO: Pass in receipt info (template, receipt info, receipt number from actual stack)
   def generate_receipt(donation) do
     html =
@@ -16,7 +19,9 @@ defmodule Api.Receipt do
         donation: donation
       )
 
-    pdf_path = Path.absname("#{donation.id}.pdf")
+    pdf_path = Path.absname("#{donation.id}.pdf")    
+
+    IEx.pry();
 
     options = [
       format: "A4",

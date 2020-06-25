@@ -11,21 +11,35 @@ defmodule ApiWeb.Router do
   end
 
   pipeline :api do
-    plug(:accepts, ["json"])
+    plug :accepts, ["json"]
+    plug ApiWeb.APIAuthPlug, otp_app: :api
   end
 
-  scope "/", ApiWeb do
-    pipe_through(:browser)
-
-    get("/", PageController, :index)
+  pipeline :api_protected do
+    plug Pow.Plug.RequireAuthenticated, error_handler: ApiWeb.APIAuthErrorHandler
   end
 
-  if Mix.env() == :dev do
-    scope "/" do
-      pipe_through(:browser)
-      live_dashboard("/dashboard")
-    end
+  scope "/api/v1", ApiWeb.API.V1, as: :api_v1 do
+    pipe_through :api
+
+    resources "/registration", RegistrationController, singleton: true, only: [:create]
+    resources "/session", SessionController, singleton: true, only: [:create, :delete]
+    post "/session/renew", SessionController, :renew
   end
+
+  scope "/api/v1", ApiWeb.API.V1, as: :api_v1 do
+    pipe_through [:api, :api_protected]
+
+    # Your protected API endpoints here
+    # install JA Serializer and add it here.
+  end
+
+  # (if Mix.env) == :dev do
+  #   scope "/" do
+  #     pipe_through(:browser)
+  #     live_dashboard("/dashboard")
+  #   end
+  # end
 
   # Other scopes may use custom stacks.
   # scope "/api", ApiWeb do

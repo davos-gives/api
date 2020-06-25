@@ -55,7 +55,8 @@ defmodule Api.MixProject do
       {:puppeteer_pdf, "~> 1.0.3"},
       {:tesla, "~> 1.3.0"},
       {:hackney, "~> 1.15.2"},
-      {:number, "~> 1.0.1"}
+      {:number, "~> 1.0.1"},
+      {:pow, "~>1.0.20"}
     ]
   end
 
