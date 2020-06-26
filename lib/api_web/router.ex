@@ -11,11 +11,14 @@ defmodule ApiWeb.Router do
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug :accepts, ["json", "json-api"]
     plug ApiWeb.APIAuthPlug, otp_app: :api
   end
 
   pipeline :api_protected do
+    plug :accepts, ["json-api"]
+    plug JaSerializer.ContentTypeNegotiation 
+    plug JaSerializer.Deserializer
     plug Pow.Plug.RequireAuthenticated, error_handler: ApiWeb.APIAuthErrorHandler
   end
 
@@ -30,8 +33,14 @@ defmodule ApiWeb.Router do
   scope "/api/v1", ApiWeb.API.V1, as: :api_v1 do
     pipe_through [:api, :api_protected]
 
+    get "/users/me", UserController, :current_user
+    resources "/campaigns", CampaignController, except: [:new, :edit]
+    resources "/donations", DonationController, except: [:new, :edit]
+    resources "/receipts", ReceiptController, except: [:new, :edit]
+    resources "/slugs", SlugController, except: [:new, :edit]
+
+
     # Your protected API endpoints here
-    # install JA Serializer and add it here.
   end
 
   # (if Mix.env) == :dev do

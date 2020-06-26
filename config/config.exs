@@ -16,7 +16,7 @@ config :triplex, repo: Api.Repo
 config :api, ApiWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "gA73wMGWkAYUbILvsEObmN2kGEv0qsr05WZB6S5fIoR+CXG/dICbAWKaD0r7jald",
-  render_errors: [view: ApiWeb.ErrorView, accepts: ~w(html json)],
+  render_errors: [view: ApiWeb.ErrorView, accepts: ~w(html json json-api)],
   pubsub_server: Api.PubSub,
   live_view: [signing_salt: "G2ZOD54SunVxHle8r2copRwkJV4Vejku"]
 
@@ -27,11 +27,21 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+config :phoenix, :format_encoders, "json-api": Jason
+
+config :mime, :types, %{
+  "application/vnd.api+json" => ["json-api"],
+  "application/json" => ["json"]
+}
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
 
 config :api, :pow,
-  user: Api.Users.User,
+  user: Api.Organization.User,
   repo: Api.Repo
+
+
+
+  

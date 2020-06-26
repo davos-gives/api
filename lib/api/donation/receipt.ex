@@ -28,7 +28,6 @@ defmodule Api.Donation.Receipt do
     field :city, :string
     field :advantage_value, :integer
     field :amount_eligable_for_tax_purposes, :integer
-    field :url, :string
     belongs_to :donation, Donation
 
     timestamps()

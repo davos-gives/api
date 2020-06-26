@@ -13,7 +13,7 @@ defmodule Api.Application do
       # Start the endpoint when the application starts
       {Phoenix.PubSub, name: Api.PubSub},
       ApiWeb.Endpoint,
-      Api.Nationbuilder.ServicesSupervisor
+      # Api.Nationbuilder.ServicesSupervisor
       # Starts a worker by calling: Api.Worker.start_link(arg)
       # {Api.Worker, arg},
     ]
@@ -24,7 +24,7 @@ defmodule Api.Application do
 
     supervised_app = Supervisor.start_link(children, opts)
 
-    Api.Nationbuilder.ServicesSupervisor.start_workers_for_active_organizations()
+    # Api.Nationbuilder.ServicesSupervisor.start_workers_for_active_organizations()
 
     supervised_app
   end

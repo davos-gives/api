@@ -70,4 +70,8 @@ defmodule Api.Donation do
     |> last()
     |> Repo.one(prefix: Triplex.to_prefix(tenant_name))
   end
+
+  def list_donations_for_organization(prefix) do
+    Repo.all(Donation, prefix: Triplex.to_prefix(prefix))
+  end
 end
