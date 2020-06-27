@@ -1,8 +1,6 @@
 defmodule Api.Organization.User do
   use Ecto.Schema
   use Pow.Ecto.Schema
-
-  import Ecto.Changeset
   import Ecto.Query
 
   alias Comeonin.Bcrypt
@@ -21,5 +19,12 @@ defmodule Api.Organization.User do
 
     pow_user_fields()
     timestamps()
+  end
+
+  def changeset(user_or_changeset, attrs) do
+    user_or_changeset 
+    |> pow_changeset(attrs)
+    |> Ecto.Changeset.cast(attrs, [:fname, :lname])
+    |> Ecto.Changeset.validate_required([:fname, :lname])
   end
 end

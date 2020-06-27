@@ -5,8 +5,10 @@ defmodule ApiWeb.API.V1.RegistrationController do
   alias Plug.Conn
   alias Api.ErrorHelpers
 
-  @spec create(Conn.t(), map()) :: Conn.t()
-  def create(conn, %{"user" => user_params}) do
+  import IEx
+
+  def create(conn, user_params) do
+
     conn
     |> Pow.Plug.create_user(user_params)
     |> case do

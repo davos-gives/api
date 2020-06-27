@@ -34,7 +34,8 @@ defmodule ApiWeb.Router do
   scope "/api/v1", ApiWeb.API.V1, as: :api_v1 do
     pipe_through :api
 
-    resources "/registration", RegistrationController, singleton: true, only: [:create]
+    # resources "/registration", RegistrationController, singleton: true, only: [:create]
+    post "/registrations", RegistrationController, :create
     resources "/session", SessionController, singleton: true, only: [:create, :delete]
     post "/session/renew", SessionController, :renew
   end
