@@ -20,7 +20,7 @@ defmodule Api.MixProject do
   def application do
     [
       mod: {Api.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :oauth2]
     ]
   end
 
@@ -54,7 +54,8 @@ defmodule Api.MixProject do
       {:tesla, "~> 1.3.0"},
       {:hackney, "~> 1.15.2"},
       {:number, "~> 1.0.1"},
-      {:pow, "~>1.0.20"}
+      {:pow, "~>1.0.20"},
+      {:oauth2, "~> 2.0"}
     ]
   end
 

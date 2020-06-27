@@ -42,6 +42,5 @@ config :api, :pow,
   user: Api.Organization.User,
   repo: Api.Repo
 
-
-
+config :oauth2, debug: true
   

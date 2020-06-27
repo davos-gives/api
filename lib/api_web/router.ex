@@ -22,6 +22,15 @@ defmodule ApiWeb.Router do
     plug Pow.Plug.RequireAuthenticated, error_handler: ApiWeb.APIAuthErrorHandler
   end
 
+
+  scope "/" do
+    pipe_through(:browser)
+
+    get "/auth", ApiWeb.AuthController, :index
+    get "/auth/callback", ApiWeb.AuthController, :callback
+    live_dashboard("/dashboard")
+  end
+
   scope "/api/v1", ApiWeb.API.V1, as: :api_v1 do
     pipe_through :api
 
@@ -42,13 +51,6 @@ defmodule ApiWeb.Router do
 
     # Your protected API endpoints here
   end
-
-  # (if Mix.env) == :dev do
-  #   scope "/" do
-  #     pipe_through(:browser)
-  #     live_dashboard("/dashboard")
-  #   end
-  # end
 
   # Other scopes may use custom stacks.
   # scope "/api", ApiWeb do
