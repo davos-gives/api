@@ -20,7 +20,7 @@ defmodule Api.Nationbuilder.TransactionServer do
     GenServer.start_link(
       __MODULE__,
       %State{
-        token: organization.nationbuilder_id,
+        token: organization.nationbuilder_token,
         tenant_name: organization.tenant_name
       },
       name: String.to_atom(organization.tenant_name)

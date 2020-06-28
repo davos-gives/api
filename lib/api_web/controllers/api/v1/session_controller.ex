@@ -4,8 +4,6 @@ defmodule ApiWeb.API.V1.SessionController do
   alias ApiWeb.APIAuthPlug
   alias Plug.Conn
 
-  require IEx
-
   def create(conn, %{"password" => password, "username" => email}) do
 
     user_params = %{"email" => email, "password" => password}

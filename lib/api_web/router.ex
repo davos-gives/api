@@ -45,6 +45,7 @@ defmodule ApiWeb.Router do
 
     get "/users/me", UserController, :current_user
     resources "/campaigns", CampaignController, except: [:new, :edit]
+    resources "/organizations", OrganizationController, except: [:new, :edit]
     resources "/donations", DonationController, except: [:new, :edit]
     resources "/receipts", ReceiptController, except: [:new, :edit]
     resources "/slugs", SlugController, except: [:new, :edit]
