@@ -3,12 +3,12 @@ defmodule ApiWeb.API.V1.UserView do
   use JaSerializer.PhoenixView
 
   location("/api/v1/users/:id")
-  attributes([:fname, :lname])
+  attributes([:fname, :lname, :email])
 
-  # has_one :organization,
-  #   serializer: ApiWeb.Admin.OrganizationView,
-  #   identifiers: :when_included,
-  #   links: [
-  #     related: "/api/admin/users/:id/organization"
-  #   ]
+  has_one :organization,
+    serializer: ApiWeb.API.V1.OrganizationView,
+    identifiers: :when_included,
+    links: [
+      related: "/api/v1/users/:id/organization"
+    ]
 end

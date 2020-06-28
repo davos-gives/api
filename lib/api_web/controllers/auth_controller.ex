@@ -6,17 +6,17 @@ defmodule ApiWeb.AuthController do
   import IEx
 
   def index(conn, %{"organization_id" => organization_id} = params) do
-    organization = Organization.get_organization(organization_id)
+    organization = Organization.get_organization!(organization_id)
     redirect(conn, external: OAuth2.Client.authorize_url!(client(organization.nationbuilder_id, organization_id)))
   end
 
   def callback(conn, %{"code" => code, "organization_id" => organization_id} = params) do
-    organization = Organization.get_organization(organization_id)
+    organization = Organization.get_organization!(organization_id)
     token = OAuth2.Client.get_token!(client(organization.nationbuilder_id, organization_id), code: code)
 
     new_token = Jason.decode!(token.token.access_token)
 
-    Organization.update_organization(organization, %{nationbuilder_token: new_token["access_token"]})
+    Organization.nationbuilder_update_organization(organization, %{nationbuilder_token: new_token["access_token"]})
     redirect(conn, external: "http://localhost:4200")
   end
 

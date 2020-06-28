@@ -44,12 +44,14 @@ defmodule ApiWeb.Router do
     pipe_through [:api, :api_protected]
 
     get "/users/me", UserController, :current_user
+    resources "/users", UserController, except: [:new, :edit]
     resources "/campaigns", CampaignController, except: [:new, :edit]
     resources "/organizations", OrganizationController, except: [:new, :edit]
     resources "/donations", DonationController, except: [:new, :edit]
     resources "/receipts", ReceiptController, except: [:new, :edit]
     resources "/slugs", SlugController, except: [:new, :edit]
 
+    get "/users/:user_id/organization", OrganizationController, :organization_for_user
 
     # Your protected API endpoints here
   end

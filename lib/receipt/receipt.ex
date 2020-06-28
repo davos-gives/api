@@ -21,8 +21,6 @@ defmodule Api.Receipt do
 
     pdf_path = Path.absname("#{donation.id}.pdf")    
 
-    IEx.pry();
-
     options = [
       format: "A4",
       print_background: true,

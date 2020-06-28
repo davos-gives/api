@@ -24,7 +24,14 @@ defmodule Api.Organization.User do
   def changeset(user_or_changeset, attrs) do
     user_or_changeset 
     |> pow_changeset(attrs)
-    |> Ecto.Changeset.cast(attrs, [:fname, :lname])
-    |> Ecto.Changeset.validate_required([:fname, :lname])
+    |> Ecto.Changeset.cast(attrs, [:fname, :lname, :email])
+    |> Ecto.Changeset.validate_required([:fname, :email])
   end
+
+  def simple_changeset(user_or_changeset, attrs) do
+    user_or_changeset 
+    |> Ecto.Changeset.cast(attrs, [:fname, :lname, :email])
+    |> Ecto.Changeset.validate_required([:fname, :email])
+  end  
 end
+

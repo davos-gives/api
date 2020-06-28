@@ -13,7 +13,7 @@ defmodule Api.Nationbuilder.Authorization do
 
     token = OAuth2.Client.authorize_url!(client)
 
-    IEx.pry()
   end
+
 
 end

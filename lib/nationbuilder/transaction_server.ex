@@ -6,6 +6,7 @@ defmodule Api.Nationbuilder.TransactionServer do
 
   alias Api.Nationbuilder.Nationbuilder
   alias Api.Donation
+  alias Api.Organization
 
   defmodule State do
     defstruct token: nil,
@@ -211,6 +212,7 @@ defmodule Api.Nationbuilder.TransactionServer do
   defp create_transactions([head | tail], state) do
     head = flatten(head)
     {:ok, donation} = Donation.create_donation(state.tenant_name, head)
+    {:ok, slug} = Organization.update_or_create_slug(state.tenant_name, slug_attrs(head))
     Api.Receipt.generate_receipt(donation)
     new_state = %{state | last_transaction_datetime: head["created_at"]}
     create_transactions(tail, new_state)
@@ -238,6 +240,12 @@ defmodule Api.Nationbuilder.TransactionServer do
       page_slug: attrs["page_slug"],
       tracking_code_slug: attrs["tracking_code_slug"],
       recurring_donation: false
+    }
+  end
+
+  defp slug_attrs(attrs) do
+    slug = %{
+      name: attrs.page_slug
     }
   end
 end

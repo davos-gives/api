@@ -30,37 +30,79 @@ defmodule Api.Organization do
     has_many :users, User
   end
 
-  def changeset(%Organization{} = model, attrs, current_user) do
+  def creation_changeset(%Organization{} = model, attrs, current_user) do
     model
     |> cast(attrs, [:name, :nationbuilder_id, :address1, :address2, :city, :province, :country, :postal_code, :charitable_number])
-     |> put_assoc(:users, [current_user])
+    |> put_assoc(:users, [current_user])
     |> create_tenant
     |> validate_required([:name, :nationbuilder_id, :tenant_name])
   end
 
-  def changeset(%Organization{} = model, attrs) do
+  def nationbuilder_changeset(%Organization{} = model, attrs) do
     model
     |> cast(attrs, [:nationbuilder_token])
     |> validate_required([:nationbuilder_token])
   end
 
+  def update_changeset(%Organization{} = model, attrs) do
+    model
+    |> cast(attrs, [:name, :nationbuilder_id, :address1, :address2, :city, :province, :country, :postal_code, :charitable_number])
+    |> validate_required([:name, :nationbuilder_id, :address1, :city, :province, :country, :postal_code, :charitable_number])
+  end
+
+  def create_slug(attrs \\ %{}) do
+    
+  end
+
   def create_organization(attrs \\ %{}, current_user) do
    %Organization{}
-   |> Organization.changeset(attrs, current_user)
+   |> Organization.creation_changeset(attrs, current_user)
    |> Repo.insert
   end
 
-  def update_organization(%Organization{} = organization, attrs) do
+  def nationbuilder_update_organization(%Organization{} = organization, attrs) do
     organization 
-    |> Organization.changeset(attrs)
+    |> Organization.nationbuilder_changeset(attrs)
     |> Repo.update
   end
 
-  def get_organization(id), do: Repo.get!(Organization, id);
+
+  def update_organization(%Organization{} = organization, attrs) do
+    organization 
+    |> Organization.update_changeset(attrs)
+    |> Repo.update
+  end
+
+  def get_organization!(id), do: Repo.get!(Organization, id);
+
+  def get_user_with_organization!(id) do
+    user = Repo.get!(User, id)
+    user = Repo.preload(user, [:organization])
+  end
+
+  def get_organization_for_user(id) do
+    user = Organization.get_user!(id) 
+    user = Repo.preload(user, [:organization])
+    user.organization
+  end
+
+  def update_or_create_slug(tenant_name, attrs \\ %{}) do
+    %Slug{}
+    |> Slug.changeset(attrs)
+    |> Repo.insert_or_update(prefix: Triplex.to_prefix(tenant_name))
+  end
 
   def list_organizations do
     Organization
     |> Repo.all()
+  end
+
+  def get_user!(id), do: Repo.get!(User, id);
+
+  def update_user(%User{} = user, attrs) do
+    user
+    |> User.simple_changeset(attrs)
+    |> Repo.update
   end
 
   def list_campaigns_for_organization(prefix) do

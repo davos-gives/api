@@ -8,8 +8,6 @@ defmodule ApiWeb.API.V1.SessionController do
 
     user_params = %{"email" => email, "password" => password}
 
-    # IEx.pry()
-
     conn
     |> Pow.Plug.authenticate_user(user_params)
     |> case do

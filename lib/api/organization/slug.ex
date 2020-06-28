@@ -12,5 +12,7 @@ defmodule Api.Organization.Slug do
   def changeset(%Slug{} = model, attrs) do
     model
     |> cast(attrs, [:name])
+    |> validate_required([:name])
+    |> unique_constraint(:name)
   end
 end
