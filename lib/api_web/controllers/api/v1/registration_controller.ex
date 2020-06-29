@@ -8,7 +8,6 @@ defmodule ApiWeb.API.V1.RegistrationController do
   import IEx
 
   def create(conn, user_params) do
-
     conn
     |> Pow.Plug.create_user(user_params)
     |> case do

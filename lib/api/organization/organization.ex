@@ -8,6 +8,9 @@ defmodule Api.Organization do
   alias Api.Organization.Campaign
   alias Api.Organization.User
   alias Api.Organization.Slug
+  alias Api.Organization.Logo
+  alias Api.Organization.Signature
+  alias Api.Organization.ReceiptTemplate
   alias Api.Donation.Receipt
   alias Ecto.Multi
 
@@ -50,8 +53,22 @@ defmodule Api.Organization do
     |> validate_required([:name, :nationbuilder_id, :address1, :city, :province, :country, :postal_code, :charitable_number])
   end
 
-  def create_slug(attrs \\ %{}) do
-    
+  def create_receipt_template(attrs \\ %{}, prefix) do
+    %ReceiptTemplate{}
+    |> ReceiptTemplate.changeset(attrs)
+    |> Repo.insert(prefix: Triplex.to_prefix(prefix))
+  end
+
+  def create_logo(attrs \\ %{}, prefix) do
+    %Logo{}
+    |> Logo.changeset(attrs)
+    |> Repo.insert(prefix: Triplex.to_prefix(prefix))
+  end
+
+  def create_signature(attrs \\ %{}, prefix) do
+    %Signature{}
+    |> Signature.changeset(attrs)
+    |> Repo.insert(prefix: Triplex.to_prefix(prefix))
   end
 
   def create_organization(attrs \\ %{}, current_user) do
@@ -65,7 +82,6 @@ defmodule Api.Organization do
     |> Organization.nationbuilder_changeset(attrs)
     |> Repo.update
   end
-
 
   def update_organization(%Organization{} = organization, attrs) do
     organization 
@@ -115,7 +131,19 @@ defmodule Api.Organization do
 
   def list_slugs_for_organization(prefix) do
     Repo.all(Slug, prefix: Triplex.to_prefix(prefix))
-  end  
+end
+
+  def list_logos_for_organization(prefix) do
+    Repo.all(Logo, prefix: Triplex.to_prefix(prefix))
+  end
+
+  def list_receipt_templates_for_organization(prefix) do
+    Repo.all(ReceiptTemplate, prefix: Triplex.to_prefix(prefix))
+  end
+
+  def list_signatures_for_organization(prefix) do
+    Repo.all(Signature, prefix: Triplex.to_prefix(prefix))
+  end
 
   defp create_tenant(changeset) do
     name = get_change(changeset, :name)

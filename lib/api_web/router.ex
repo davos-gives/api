@@ -44,6 +44,10 @@ defmodule ApiWeb.Router do
     pipe_through [:api, :api_protected]
 
     get "/users/me", UserController, :current_user
+    resources "/signatures",SignatureController, except: [:new, :edit]
+    resources "/receipt-templates", ReceiptTemplateController, except: [:new, :edit]
+    resources "/signatures",SignatureController, except: [:new, :edit]
+    resources "/logos", LogoController, except: [:new, :edit]
     resources "/users", UserController, except: [:new, :edit]
     resources "/campaigns", CampaignController, except: [:new, :edit]
     resources "/organizations", OrganizationController, except: [:new, :edit]

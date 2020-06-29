@@ -5,7 +5,6 @@ defmodule ApiWeb.API.V1.SessionController do
   alias Plug.Conn
 
   def create(conn, %{"password" => password, "username" => email}) do
-
     user_params = %{"email" => email, "password" => password}
 
     conn
