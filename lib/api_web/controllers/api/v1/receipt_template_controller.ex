@@ -13,10 +13,10 @@ defmodule ApiWeb.API.V1.ReceiptTemplateController do
     render(conn, "index.json-api", data: templates)
   end
 
-  # def show(conn, %{"id" => id}) do
-  #   organization = Organization.get_organization!(id)
-  #   render(conn, "show.json-api", data: organization)
-  # end
+  def show(conn, %{"id" => id} = params) do
+    template = Organization.get_receipt_template!(id, params.prefix)
+    render(conn, "show.json-api", data: template)
+  end
 
   def create(conn, %{"data" => data = %{"type" => "receipt-templates"}} = params) do
     data = data
@@ -34,18 +34,5 @@ defmodule ApiWeb.API.V1.ReceiptTemplateController do
     end
   end
 
-  # def update(conn, %{"id" => id, "data" => data = %{"type" => "organizations", "attributes" => _params}}) do
-  #   data = JaSerializer.Params.to_attributes(data)
-  #   organization = Organization.get_organization!(id)
 
-  #   case Organization.update_organization(organization, data) do
-  #     {:ok, %Organization{} = organization} -> 
-  #       conn
-  #       |> render("show.json-api", data: organization)
-  #     {:error, %Ecto.Changeset{} = changeset} -> 
-  #       conn
-  #       |> put_status(:unprocessable_entity)
-  #       |> render(ApiWeb.ErrorView, "400.json-api", changeset) 
-  #   end
-  # end
 end

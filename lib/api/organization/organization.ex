@@ -53,6 +53,14 @@ defmodule Api.Organization do
     |> validate_required([:name, :nationbuilder_id, :address1, :city, :province, :country, :postal_code, :charitable_number])
   end
 
+  def create_campaign(attrs \\ %{}, prefix) do
+    %Campaign{}
+    |> Campaign.changeset(attrs)
+    |> Repo.insert(prefix: Triplex.to_prefix(prefix))
+  end
+
+  def get_receipt_template!(id, prefix), do: Repo.get!(ReceiptTemplate, id, prefix: Triplex.to_prefix(prefix));
+
   def create_receipt_template(attrs \\ %{}, prefix) do
     %ReceiptTemplate{}
     |> ReceiptTemplate.changeset(attrs)

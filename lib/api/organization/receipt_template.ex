@@ -21,6 +21,8 @@ defmodule Api.Organization.ReceiptTemplate do
     field :quaternary_colour, :string
     field :quinary_colour, :string
     field :published, :boolean, default: true
+
+    has_many :campaigns, Api.Organization.Campaign
     timestamps()
   end
 

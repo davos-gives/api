@@ -9,13 +9,15 @@ defmodule Api.Organization.Campaign do
     field :name, :string
     field :description, :string 
     field :slug, :string
-    field :isActive, :boolean
-    field :amountEligableForReceipt, :integer
+    field :is_active, :boolean, default: true
+    field :amount_eligable_for_receipt, :integer
+    
+    belongs_to :receipt_template, Api.Organization.ReceiptTemplate
     timestamps()
   end
 
   def changeset(%Campaign{} = model, attrs) do
     model
-    |> cast(attrs, [:name, :description, :slug, :isActive, :amountEligableForReceipt])
+    |> cast(attrs, [:name, :description, :slug, :is_active, :amount_eligable_for_receipt, :receipt_template_id])
   end
 end
