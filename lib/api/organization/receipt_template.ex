@@ -23,6 +23,7 @@ defmodule Api.Organization.ReceiptTemplate do
     field :published, :boolean, default: true
 
     has_many :campaigns, Api.Organization.Campaign
+    has_one :receipt_stack, Api.Organization.ReceiptStack
     timestamps()
   end
 

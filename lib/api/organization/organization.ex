@@ -10,6 +10,7 @@ defmodule Api.Organization do
   alias Api.Organization.Slug
   alias Api.Organization.Logo
   alias Api.Organization.Signature
+  alias Api.Organization.ReceiptStack
   alias Api.Organization.ReceiptTemplate
   alias Api.Donation.Receipt
   alias Ecto.Multi
@@ -79,6 +80,12 @@ defmodule Api.Organization do
     |> Repo.insert(prefix: Triplex.to_prefix(prefix))
   end
 
+  def create_receipt_stack(attrs \\ %{}, prefix) do
+    %ReceiptStack{}
+    |> ReceiptStack.changeset(attrs)
+    |> Repo.insert(prefix: Triplex.to_prefix(prefix))
+  end
+
   def create_organization(attrs \\ %{}, current_user) do
    %Organization{}
    |> Organization.creation_changeset(attrs, current_user)
@@ -108,6 +115,12 @@ defmodule Api.Organization do
     user = Organization.get_user!(id) 
     user = Repo.preload(user, [:organization])
     user.organization
+  end
+
+  def get_stack_for_receipt_id(id, prefix) do
+    stack = Organization.get_receipt_template!(id) 
+    stack = Repo.preload(stack, [:receipt_stack], prefix: Triplex.to_prefix(prefix))
+    stack.receipt_stack
   end
 
   def update_or_create_slug(tenant_name, attrs \\ %{}) do
@@ -151,6 +164,12 @@ end
 
   def list_signatures_for_organization(prefix) do
     Repo.all(Signature, prefix: Triplex.to_prefix(prefix))
+  end
+
+  def list_campaigns_for_receipt(id, prefix) do
+    receipt = Organization.get_receipt_template!(id, prefix)
+    receipt = Repo.preload(receipt, :campaigns)
+    receipt.campaigns
   end
 
   defp create_tenant(changeset) do

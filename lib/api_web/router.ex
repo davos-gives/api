@@ -46,7 +46,8 @@ defmodule ApiWeb.Router do
     get "/users/me", UserController, :current_user
     resources "/signatures",SignatureController, except: [:new, :edit]
     resources "/receipt-templates", ReceiptTemplateController, except: [:new, :edit]
-    resources "/signatures",SignatureController, except: [:new, :edit]
+    resources "/receipt-stacks", ReceiptStackController, except: [:new, :edit]
+    resources "/signatures", SignatureController, except: [:new, :edit]
     resources "/logos", LogoController, except: [:new, :edit]
     resources "/users", UserController, except: [:new, :edit]
     resources "/campaigns", CampaignController, except: [:new, :edit]
@@ -56,6 +57,8 @@ defmodule ApiWeb.Router do
     resources "/slugs", SlugController, except: [:new, :edit]
 
     get "/users/:user_id/organization", OrganizationController, :organization_for_user
+    get "/receipt-templates/:receipt_template_id/campaigns", CampaignController, :campaigns_for_receipt
+    get "/receipt-templates/:receipt_template_id/receipt-stack", ReceiptStackController, :stack_for_receipt
 
     # Your protected API endpoints here
   end

@@ -26,4 +26,9 @@ defmodule ApiWeb.API.V1.CampaignController do
         |> render(ApiWeb.ErrorView, "400.json-api", changeset)
     end
   end
+
+  def campaigns_for_receipt(conn, %{"receipt_template_id" => receipt_id} = params) do
+    receipts = Organization.list_campaigns_for_receipt(receipt_id, params.prefix)
+    render(conn, "index.json-api", data: receipts)
+  end
 end

@@ -4,7 +4,39 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="<%= @css %>"/>
+    <link rel="stylesheet" href="http://localhost:4000/css/app.css"/>
+    <script>
+    window.addEventListener('message', function(event) {
+      console.log(event.data);
+      event.data.forEach(function(element) {
+         if(element.key == 'title') {
+            document.getElementById('title').innerHTML = element.value
+        } else if (element.key == 'primaryColour') {
+          var html = document.getElementsByTagName('html')[0];
+          html.style.cssText += `--primary: ${element.value}`;
+        } else if(element.key == 'secondaryColour') {
+            var html = document.getElementsByTagName('html')[0];
+            html.style.cssText += `--secondary: ${element.value}`;
+        } else if(element.key == 'tertiaryColour') {
+            var html = document.getElementsByTagName('html')[0];
+            html.style.cssText += `--tertiary: ${element.value}`;
+        } else if(element.key == 'quaternaryColour') {
+            var html = document.getElementsByTagName('html')[0];
+            html.style.cssText += `--quaternary: ${element.value}`;
+        } else if(element.key == 'quniaryColour') {
+            var html = document.getElementsByTagName('html')[0];
+            html.style.cssText += `--quinary: ${element.value}`;
+        } else if(element.key == "description") {
+          document.getElementById('description').innerHTML = element.value
+        } else if(element.key == "signatureFooter") {
+          document.getElementById('signature_footer').innerHTML = element.value
+        } else if(element.key == "font") {
+          var html = document.getElementsByTagName('html')[0];
+          html.style.cssText += `--font: ${element.value}`;
+        }
+      });
+    });
+    </script>
   </head>
   <body>
     <main role="main" class="container">
