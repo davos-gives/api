@@ -1,25 +1,15 @@
 defmodule Api.Receipt do
-
-  require IEx;
-
-  # TODO: Pass in receipt info (template, receipt info, receipt number from actual stack)
-  def generate_receipt(donation) do
+  def generate_receipt(receipt, receipt_template, organization) do
     html =
       Phoenix.View.render_to_string(ApiWeb.ReceiptView, "default.html",
         layout: {ApiWeb.LayoutView, "pdf.html"},
         css: "#{Application.app_dir(:api, "priv/static/css/app.css")}",
-        template: %{
-          header: "Thanks for being Awesome!",
-          description:
-            "After 18 years in the same location, the Barks & Moews Shelter faced a move. In addition to finding a suitable location that will permit us to continue our work, major renovations and modification may well be required. Your assistance to our organization is greatly appreciated. You are helping our shelter reach our goal; our survival is in your hands.",
-          logo: "#{Application.app_dir(:api, "priv/static/images/barks.png")}",
-          signature: "#{Application.app_dir(:api, "priv/static/images/signature.png")}",
-          davos: "#{Application.app_dir(:api, "priv/static/images/davos-logo.png")}"
-        },
-        donation: donation
+        template: receipt_template,
+        donation: receipt,
+        organization: organization
       )
 
-    pdf_path = Path.absname("#{donation.id}.pdf")    
+    pdf_path = Path.absname("receipts/#{receipt.receipt_number}.pdf")    
 
     options = [
       format: "A4",
@@ -28,5 +18,7 @@ defmodule Api.Receipt do
     ]
 
     PuppeteerPdf.Generate.from_string(html, pdf_path, options)
+
+    {:ok, file_id} = Api.FileStore.put_file(Path.absname("receipts"), pdf_path)
   end
 end

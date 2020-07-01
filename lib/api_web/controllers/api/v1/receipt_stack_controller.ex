@@ -4,8 +4,6 @@ defmodule ApiWeb.API.V1.ReceiptStackController do
   alias Api.Organization
   alias Api.Organization.ReceiptStack
   
-  import IEx
-
   plug :get_database_prefix
 
   def stack_for_receipt(conn, %{"receipt_template_id" => id} = params) do

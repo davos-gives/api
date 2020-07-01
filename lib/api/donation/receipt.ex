@@ -28,6 +28,7 @@ defmodule Api.Donation.Receipt do
     field :city, :string
     field :advantage_value, :integer
     field :amount_eligable_for_tax_purposes, :integer
+    field :file_id, :string
     belongs_to :donation, Donation
 
     timestamps()
@@ -50,7 +51,8 @@ defmodule Api.Donation.Receipt do
       :city,
       :advantage_value,
       :amount_eligable_for_tax_purposes,
-      :donation_id
+      :donation_id,
+      :file_id
     ])
     |> validate_required([
       :charitable_registration_number,
@@ -69,42 +71,29 @@ defmodule Api.Donation.Receipt do
     ])
   end
 
-  def create_receipt_and_update_stack(attrs \\ %{}) do
+  def create_receipt_and_update_stack(attrs \\ %{}, stack_id, tenant) do
     Multi.new()
-    |> create_receipt!(attrs)
-    |> update_receipt_stack(attrs)
+    |> create_receipt!(attrs, tenant)
+    |> update_receipt_stack(attrs, stack_id, tenant)
     |> Repo.transaction()
   end
 
-  defp create_receipt!(multi, attrs \\ %{}) do
+  defp create_receipt!(multi, attrs \\ %{}, tenant) do
     Multi.run(multi, :created_receipt, fn repo, %{} ->
-      receipt_number = Receipt.get_receipt_stack!(1).current_receipt_number + 1
-
-      attrs =
-        attrs
-        |> Map.put("receipt_number", receipt_number)
-
-      new_receipt =
-        %Receipt{}
-        |> Receipt.changeset(attrs)
-        |> Repo.insert(Triplex.to_prefix("testing_tenant"))
+      %Receipt{}
+      |> Receipt.changeset(attrs)
+      |> repo.insert(prefix: Triplex.to_prefix(tenant))
     end)
   end
 
-  def create_receipt_stack(attrs \\ %{}) do
-    %ReceiptStack{}
-    |> ReceiptStack.changeset(attrs)
-    |> Repo.insert(prefix: Triplex.to_prefix("testing_tenant"))
-  end
-
-  def get_receipt_stack!(id) do
+  def get_receipt_stack!(id, tenant) do
     ReceiptStack
-    |> Repo.get!(id, Triplex.to_prefix("testing_tenant"))
+    |> Repo.get!(id, prefix: Triplex.to_prefix(tenant))
   end
 
-  def get_receipt!(id) do
+  def get_receipt!(id, tenant) do
     Receipt
-    |> Repo.get!(id, Triplex.to_prefix("testing_tenant"))
+    |> Repo.get!(id, prefix: Triplex.to_prefix(tenant))
   end
 
   def list_receipts(), do: Repo.all(Receipt)
@@ -121,13 +110,15 @@ defmodule Api.Donation.Receipt do
     |> Repo.all()
   end
 
-  defp update_receipt_stack(multi, attrs \\ %{}) do
+  defp update_receipt_stack(multi, attrs \\ %{}, stack_id, tenant) do
     Multi.run(multi, :updated_stack, fn repo, %{created_receipt: created_receipt} ->
-      attrs = %{current_receipt_number: created_receipt.receipt_number}
 
-      Receipt.get_receipt_stack!(1)
+      number = Receipt.get_receipt_stack!(stack_id, tenant)
+      attrs = %{current_number: number.current_number + 1}
+
+      Receipt.get_receipt_stack!(stack_id, tenant)
       |> ReceiptStack.changeset(attrs)
-      |> Repo.update(Triplex.to_prefix("testing_tenant"))
+      |> repo.update(prefix: Triplex.to_prefix(tenant))
     end)
   end
 end

@@ -6,7 +6,11 @@ defmodule Api.Nationbuilder.TransactionServer do
 
   alias Api.Nationbuilder.Nationbuilder
   alias Api.Donation
+  alias Api.Donation.Receipt
   alias Api.Organization
+  alias Api.Organization.Campaign
+
+  import IEx
 
   defmodule State do
     defstruct token: nil,
@@ -212,14 +216,55 @@ defmodule Api.Nationbuilder.TransactionServer do
   defp create_transactions([head | tail], state) do
     head = flatten(head)
     {:ok, donation} = Donation.create_donation(state.tenant_name, head)
-    {:ok, slug} = Organization.update_or_create_slug(state.tenant_name, slug_attrs(head))
-    Api.Receipt.generate_receipt(donation)
+    #Deal with errors coming back here. It's okay to not create if it already exists
+    # {:ok, slug} = Organization.update_or_create_slug(state.tenant_name, slug_attrs(head))
     new_state = %{state | last_transaction_datetime: head["created_at"]}
+    organization = Organization.get_organization_by_tenant_name(state.tenant_name)
+
+    create_receipt(donation, donation.page_slug, state, organization)
     create_transactions(tail, new_state)
   end
 
   defp create_transactions([], state) do
     {:ok, state}
+  end
+
+  defp create_receipt(donation, nil, state, organization) do
+  end
+
+  defp create_receipt(donation, slug, state, organization) do
+    case Organization.find_campaign_by_slug(slug, state.tenant_name) do
+      %Campaign{} = campaign -> 
+        receipt_params = %{
+          charitable_registration_number: organization.charitable_number,
+          receipt_number: generate_receipt_number_string(campaign),
+          payment_date: donation.nationbuilder_created_at,
+          payment_amount: donation.amount_in_cents,
+          first_name: donation.first_name,
+          last_name: donation.last_name,
+          address_1: donation.address1, 
+          address_2: donation.address2, 
+          postal_code: donation.zip,
+          country: donation.country_code,
+          province: donation.state,
+          city: donation.city,
+          advantage_value: Kernel.trunc(donation.amount_in_cents * ((100 - campaign.amount_eligable_for_receipt) / 100)),
+          amount_eligable_for_tax_purposes: Kernel.trunc(donation.amount_in_cents * (campaign.amount_eligable_for_receipt / 100)),
+          donation_id: donation.id
+        }
+
+        {:ok, file_id} = Api.Receipt.generate_receipt(receipt_params, campaign.receipt_template, organization)
+
+        new_receipt_params = receipt_params
+        |> Map.put(:file_id, file_id)
+
+        {:ok, created_receipt} = Api.Donation.Receipt.create_receipt_and_update_stack(new_receipt_params, campaign.receipt_template.receipt_stack.id, state.tenant_name)
+    end
+  end
+
+  defp generate_receipt_number_string(campaign) do
+    receipt_stack = campaign.receipt_template.receipt_stack
+    "#{receipt_stack.prefix}#{receipt_stack.current_number + 1}#{receipt_stack.suffix}"
   end
 
   defp flatten(attrs) do

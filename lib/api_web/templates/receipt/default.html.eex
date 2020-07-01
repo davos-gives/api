@@ -1,11 +1,11 @@
-<div class="receipts">
+<div class="receipts font-family">
   <div class="flex h-56 mx-10 justify-between"> 
     <h1 class="primary-text capitalize font-black text-3xl self-end" id="title"><%= @template.title %></h1>
     <img id="logo" src="<%= @template.logo_url %>" class="w-48 mt-4 self-start template_logo"/>
 
   </div>
   <div class="mx-10 mt-8 py-4">
-    <p class="texy-gray-700 leading-normal text-sm" id="description"><%= raw @template.description %></p>
+    <div class="texy-gray-700 leading-normal text-sm" id="description"><%= raw @template.description %></div>
     <img id="signature" id="signature_url" src="<%= @template.signature_url %>" class="w-32" />
     <p class="texy-gray-700 leading-normal text-sm italic" id="signature_footer"><%= @template.signature_footer %></p>
   </div>
@@ -16,7 +16,7 @@
         <p>Official Receipt as below:</p>
       </div>
     </address>
-    <div id="powered-by" class="inline-flex text-sm content-center texy-gray-700"><span>Powered by</span> <img class="-mt-1 object-contain w-12" src="" /></div>
+    <div id="powered-by" class="inline-flex text-sm content-center texy-gray-700"><span>Powered by</span> <img class="-mt-2 object-contain w-15" src="http://localhost:4000/images/davos-logo.png" /></div>
   </aside>
   <table class="w-full tertiary-background-color tertiary-border-color px-5 py-5 table-fixed">
     <tbody>
@@ -30,42 +30,43 @@
         <td class="w-1/4 px-8 py-1"><span class="uppercase font-thin text-xs quaternary-text">Receipt #</span></td>
         <td class="w-1/4 px-4 py-1"><span class="font-bold text-sm quaternary-text">#100500<span></td>
         <td class="w-1/4 px-4 py-1"><span class="uppercase font-thin text-xs quaternary-text">Street and Suite</span></td>
-        <td class="w-1/4 px-4 py-1"><span class="font-bold text-sm quaternary-text"><%= @donation.address2 %> <%= @donation.address1 %><span></td>
+        <td class="w-1/4 px-4 py-1"><span class="font-bold text-sm quaternary-text"><%= @donation.address_2 %> <%= @donation.address_1 %><span></td>
       </tr>
       <tr class="">
         <td class="w-1/4 px-8 py-1"><span class="uppercase font-thin text-xs quaternary-text">Date of issue</span></td>
-        <td class="w-1/4 px-4 py-1"><span class="font-bold text-sm quaternary-text" id="date_format"><%= datetime_to_date(@donation.inserted_at) %></span></td>
+        <td class="w-1/4 px-4 py-1"><span class="font-bold text-sm quaternary-text" id="date_format"><%= @donation.payment_date %></span></td>
         <td class="w-1/4 px-4 py-1"><span class="uppercase font-thin text-xs quaternary-text">City, Province</span></td>
-        <td class="w-1/4 px-4 py-1"><span class="font-bold text-sm quaternary-text capitalize"><%= @donation.city %>, <%= @donation.state %>, <%= @donation.zip %><span></td>
+        <td class="w-1/4 px-4 py-1"><span class="font-bold text-sm quaternary-text capitalize"><%= @donation.city %>, <%= @donation.province %>,</span> <span class="font-bold text-sm quaternary-text uppercase"><%= @donation.postal_code %><span></td>
       </tr>
       <tr class="">
         <td class="w-1/4 px-8 py-1"><span class="uppercase font-thin text-xs quaternary-text">Place of Issue</span></td>
-        <td class="w-1/4 px-4 py-1"><span class="font-bold text-sm quaternary-text">Vancouver, Canada<span></td>
+        <td class="w-1/4 px-4 py-1"><span class="font-bold text-sm quaternary-text"><%= @organization.city %>, <%= @organization.province %><span></td>
         <td class="w-1/4 px-4 py-1"><span class="uppercase font-thin text-xs quaternary-text">Country</span></td>
-        <td class="w-1/4 px-4 py-1"><span class="font-bold text-sm quaternary-text">Canada<span></td>
+        <td class="w-1/4 px-4 py-1"><span class="font-bold text-sm quaternary-text"><%= @organization.country %><span></td>
       </tr>
       <tr class="">
         <td class="w-1/4 px-8 py-1 pt-6"><span class="uppercase font-thin text-xs quaternary-text">Received on</span></td>
-        <td class="w-1/4 px-4 py-1 pt-6"><span class="font-bold text-sm quaternary-text"><%= @donation.nationbuilder_created_at %><span></td>
+        <td class="w-1/4 px-4 py-1 pt-6"><span class="font-bold text-sm quaternary-text"><%= @donation.payment_date %><span></td>
         <td class="w-1/4 px-4 py-1 pt-6"><span class="uppercase font-thin text-xs quaternary-text">Amount Received</span></td>
-        <td class="w-1/4 px-4 py-1 pt-6"><span class="font-bold text-sm quaternary-text"><%= cents_to_dollars(@donation.amount_in_cents) %><span></td>
+        <td class="w-1/4 px-4 py-1 pt-6"><span class="font-bold text-sm quaternary-text"><%= cents_to_dollars(@donation.payment_amount) %><span></td>
       </tr>
       <tr class="">
         <td class="w-1/4 px-8 py-1"><span class="uppercase font-thin text-xs quaternary-text">Received the Sum of</span></td>
-        <td class="w-1/4 px-4 py-1"><span class="font-bold text-sm quaternary-text"><%= cents_to_dollars(@donation.amount_in_cents) %><span></td>
+        <td class="w-1/4 px-4 py-1"><span class="font-bold text-sm quaternary-text"><%= cents_to_dollars(@donation.payment_amount) %><span></td>
         <td class="w-1/4 px-4 py-1"><span class="uppercase font-thin text-xs quaternary-text">Value of advantage</span></td>
-        <td class="w-1/4 px-4 py-1"><span class="font-bold text-sm quaternary-text"><%= cents_to_dollars(0) %><span></td>
+        <td class="w-1/4 px-4 py-1"><span class="font-bold text-sm quaternary-text"><%= cents_to_dollars(@donation.advantage_value) %><span></td>
       </tr>
       <tr class="">
         <td class="w-1/4 px-8 pt-1 pb-8"></td>
         <td class="w-1/4 px-4 py-1 pb-8"></td>
         <td class="w-1/4 px-4 py-1 pb-8"><span class="uppercase font-thin text-xs quaternary-text">Eligible amount of gift for tax purposes</span></td>
-        <td class="w-1/4 px-4 py-1 pb-8"><span class="font-bold text-sm quaternary-text"><%= cents_to_dollars(@donation.amount_in_cents) %></span></td>
+        <td class="w-1/4 px-4 py-1 pb-8"><span class="font-bold text-sm quaternary-text"><%= cents_to_dollars(@donation.amount_eligable_for_tax_purposes) %></span></td>
       </tr>
     </tbody>
   </table>
     <p class="text-xs text-center text-grey-600 mx-16 mt-4">this is an official receipt for income tax purposes. Canada Revenue Agency Canada Revenue Agency www.cra-arc.gc.ca/charitiesandgiving</p>
-    <div>
+    <div class="flex flex-col">
+    <div class="flex-grow"></div>
     <aside class="footer flex justify-between mx-16 content-center mt-6 text-sm">
       <address id="from">
         <div class="text-grey-700">

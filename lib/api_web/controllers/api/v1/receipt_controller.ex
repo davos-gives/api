@@ -12,7 +12,7 @@ defmodule ApiWeb.API.V1.ReceiptController do
 
   def download_receipt(conn, %{"receipt_id" => receipt_id} = params) do
     receipt = Api.Organization.get_receipt!(receipt_id, params.prefix)
-    {:ok, file} = File.read("demo-receipt.pdf")
+    file = Api.FileStore.get_file(Path.absname("receipts"), receipt.file_id)
     response = Base.encode64(file)
 
     new_receipt = receipt 

@@ -62,7 +62,6 @@ defmodule Api.Organization do
 
   def get_receipt!(id, prefix), do: Repo.get!(Receipt, id, prefix: Triplex.to_prefix(prefix));
 
-
   def get_receipt_template!(id, prefix), do: Repo.get!(ReceiptTemplate, id, prefix: Triplex.to_prefix(prefix));
 
   def create_receipt_template(attrs \\ %{}, prefix) do
@@ -120,8 +119,14 @@ defmodule Api.Organization do
     user.organization
   end
 
+  def get_organization_by_tenant_name(tenant_name) do
+    Organization
+    |> where([organization], organization.tenant_name == ^tenant_name)
+    |> Repo.one()
+  end
+
   def get_stack_for_receipt_id(id, prefix) do
-    stack = Organization.get_receipt_template!(id) 
+    stack = Organization.get_receipt_template!(id, prefix) 
     stack = Repo.preload(stack, [:receipt_stack], prefix: Triplex.to_prefix(prefix))
     stack.receipt_stack
   end
@@ -130,6 +135,19 @@ defmodule Api.Organization do
     %Slug{}
     |> Slug.changeset(attrs)
     |> Repo.insert_or_update(prefix: Triplex.to_prefix(tenant_name))
+  end
+
+  def find_slug(slug, prefix) do
+    Slug 
+    |> where([slug], slug.name == ^slug)
+    |> Repo.one(prefix: Triplex.to_prefix(prefix))
+  end
+
+  def find_campaign_by_slug(slug, prefix) do
+    Campaign
+    |> where([campaign], campaign.slug == ^slug)
+    |> Repo.one(prefix: Triplex.to_prefix(prefix))
+    |> Repo.preload([receipt_template: :receipt_stack], prefix: Triplex.to_prefix(prefix))
   end
 
   def list_organizations do
@@ -180,6 +198,13 @@ end
     |> slugify_name
 
     put_change(changeset, :tenant_name, name)
+  end
+
+  defp slugify_name(name) do
+    name
+    |> String.downcase 
+    |> String.replace(~r/[^a-z0-9\s-]/, "")
+    |> String.replace(~r/(\s|-)+/, "-")
   end
 
   defp slugify_name(name) do

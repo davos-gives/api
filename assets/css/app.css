@@ -11,6 +11,9 @@
 @tailwind components;
 @tailwind utilities;
 
+.font-family {
+  font-family: var(--font);
+}
 
 .primary-background-color {
   background-color: var(--primary);
@@ -86,7 +89,3 @@
 @import url("https://fonts.googleapis.com/css?family=PT+Serif");
 @import url("https://fonts.googleapis.com/css?family=Raleway");
 @import url("https://fonts.googleapis.com/css?family=Roboto");
-
-.receipts{
-  font-family: 'Open Sans'
-}
