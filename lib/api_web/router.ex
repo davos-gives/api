@@ -59,6 +59,7 @@ defmodule ApiWeb.Router do
     get "/users/:user_id/organization", OrganizationController, :organization_for_user
     get "/receipt-templates/:receipt_template_id/campaigns", CampaignController, :campaigns_for_receipt
     get "/receipt-templates/:receipt_template_id/receipt-stack", ReceiptStackController, :stack_for_receipt
+    get "receipts/:receipt_id/download", ReceiptController, :download_receipt
 
     # Your protected API endpoints here
   end

@@ -60,6 +60,9 @@ defmodule Api.Organization do
     |> Repo.insert(prefix: Triplex.to_prefix(prefix))
   end
 
+  def get_receipt!(id, prefix), do: Repo.get!(Receipt, id, prefix: Triplex.to_prefix(prefix));
+
+
   def get_receipt_template!(id, prefix), do: Repo.get!(ReceiptTemplate, id, prefix: Triplex.to_prefix(prefix));
 
   def create_receipt_template(attrs \\ %{}, prefix) do

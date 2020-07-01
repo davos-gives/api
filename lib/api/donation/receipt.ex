@@ -8,18 +8,18 @@ defmodule Api.Donation.Receipt do
   alias Api.Repo
 
   alias Api.Donation.Receipt
-  alias Api.Donation.ReceiptStack
+  alias Api.Organization.ReceiptStack
   alias Api.Donation
 
   import IEx
 
   schema "receipts" do
     field :charitable_registration_number, :string
-    field :receipt_number, :integer
-    field :payment_date, :date
+    field :receipt_number, :string
+    field :payment_date, :string
     field :payment_amount, :integer
-    field :fname, :string
-    field :lname, :string
+    field :first_name, :string
+    field :last_name, :string
     field :address_1, :string
     field :address_2, :string
     field :postal_code, :string
@@ -40,8 +40,8 @@ defmodule Api.Donation.Receipt do
       :payment_amount,
       :receipt_number,
       :payment_date,
-      :fname,
-      :lname,
+      :first_name,
+      :last_name,
       :address_1,
       :address_2,
       :postal_code,
@@ -55,8 +55,8 @@ defmodule Api.Donation.Receipt do
     |> validate_required([
       :charitable_registration_number,
       :receipt_number,
-      :fname,
-      :lname,
+      :first_name,
+      :last_name,
       :address_1,
       :postal_code,
       :country,
@@ -113,8 +113,8 @@ defmodule Api.Donation.Receipt do
     search_term = String.downcase(search_term)
 
     Receipt
-    |> where([a], like(fragment("lower(?)", a.fname), ^"%#{search_term}%"))
-    |> or_where([a], like(fragment("lower(?)", a.lname), ^"%#{search_term}%"))
+    |> where([a], like(fragment("lower(?)", a.first_name), ^"%#{search_term}%"))
+    |> or_where([a], like(fragment("lower(?)", a.last_name), ^"%#{search_term}%"))
     |> or_where([a], a.receipt_number == ^search_term)
     |> or_where([a], a.payment_amount == ^search_term * 100)
     |> order_by(desc: :inserted_at)
