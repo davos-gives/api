@@ -3,6 +3,8 @@ defmodule ApiWeb.API.V1.ReceiptStackController do
 
   alias Api.Organization
   alias Api.Organization.ReceiptStack
+
+  import IEx
   
   plug :get_database_prefix
 
@@ -14,8 +16,11 @@ defmodule ApiWeb.API.V1.ReceiptStackController do
   def create(conn, %{"data" => data = %{"type" => "receipt-stacks"}} = params) do
     data = data
     |> JaSerializer.Params.to_attributes
-  
-    case Organization.create_receipt_stack(data, params.prefix) do
+
+    addedData = data
+    |> Map.put("current_number", data["starting_number"])
+
+    case Organization.create_receipt_stack(addedData, params.prefix) do
       {:ok, %ReceiptStack{} = receipt_stack} ->
         conn
         |> put_status(:created)

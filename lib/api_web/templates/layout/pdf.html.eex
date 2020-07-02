@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="http://localhost:4000/css/app.css"/>
     <script>
-    window.addEventListener('message', function(event) {
+      window.addEventListener('message', function(event) {
       event.data.forEach(function(element) {
          if(element.key == 'title') {
             document.getElementById('title').innerHTML = element.value
@@ -32,6 +32,21 @@
         } else if(element.key == "font") {
           var html = document.getElementsByTagName('html')[0];
           html.style.cssText += `--font: ${element.value}`;
+        } else if(element.key == "dateFormat") {
+          var html = document.getElementsByClassName('date-format');
+          if(element.value ==="MM / DD / YY") {
+              html[0].innerHTML = "12 / 30 / 20"
+              html[1].innerHTML = "12 / 30 / 20"
+          } else if(element.value === "DD / MM / YY") {
+              html[0].innerHTML = "30 / 12 / 20"
+              html[1].innerHTML = "30 / 12 / 20"
+          }  else if(element.value === "DD - MM - YY") {
+              html[0].innerHTML = "30 - 12 - 20"
+              html[1].innerHTML = "30 - 12 - 20"
+          } else if(element.value === "MM - DD - YY") {
+              html[0].innerHTML = "12 - 30 - 20"
+              html[1].innerHTML = "12 - 30 - 20"
+          } 
         }
       });
     });

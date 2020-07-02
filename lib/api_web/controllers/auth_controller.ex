@@ -16,7 +16,8 @@ defmodule ApiWeb.AuthController do
 
     new_token = Jason.decode!(token.token.access_token)
 
-    Organization.nationbuilder_update_organization(organization, %{nationbuilder_token: new_token["access_token"]})
+    {:ok, new_organization} = Organization.nationbuilder_update_organization(organization, %{nationbuilder_token: new_token["access_token"]})
+    Api.Nationbuilder.ServicesSupervisor.start_worker_for_organization(new_organization)
     redirect(conn, external: "http://localhost:4200")
   end
 

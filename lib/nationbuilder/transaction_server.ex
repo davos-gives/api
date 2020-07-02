@@ -9,8 +9,10 @@ defmodule Api.Nationbuilder.TransactionServer do
   alias Api.Donation.Receipt
   alias Api.Organization
   alias Api.Organization.Campaign
+  alias Api.Organization.Slug
 
   import IEx
+  import Logger
 
   defmodule State do
     defstruct token: nil,
@@ -216,8 +218,11 @@ defmodule Api.Nationbuilder.TransactionServer do
   defp create_transactions([head | tail], state) do
     head = flatten(head)
     {:ok, donation} = Donation.create_donation(state.tenant_name, head)
-    #Deal with errors coming back here. It's okay to not create if it already exists
-    # {:ok, slug} = Organization.update_or_create_slug(state.tenant_name, slug_attrs(head))
+    case Organization.update_or_create_slug(state.tenant_name, slug_attrs(head)) do
+      {:ok, %Slug{} = slug} ->
+        Logger.info("created slug: #{inspect(slug)}")
+      {:error, _} ->
+    end
     new_state = %{state | last_transaction_datetime: head["created_at"]}
     organization = Organization.get_organization_by_tenant_name(state.tenant_name)
 

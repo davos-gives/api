@@ -62,7 +62,16 @@ defmodule Api.Organization do
 
   def get_receipt!(id, prefix), do: Repo.get!(Receipt, id, prefix: Triplex.to_prefix(prefix));
 
-  def get_receipt_template!(id, prefix), do: Repo.get!(ReceiptTemplate, id, prefix: Triplex.to_prefix(prefix));
+  def get_receipt_template!(id, prefix) do
+    template = Repo.get!(ReceiptTemplate, id, prefix: Triplex.to_prefix(prefix))
+    template = Repo.preload(template, [:receipt_stack])
+  end
+
+  def update_receipt_template(%ReceiptTemplate{} = receipt_template, attrs, prefix) do
+    receipt_template
+    |> ReceiptTemplate.changeset(attrs)
+    |> Repo.update(prefix: Triplex.to_prefix(prefix))
+  end
 
   def create_receipt_template(attrs \\ %{}, prefix) do
     %ReceiptTemplate{}

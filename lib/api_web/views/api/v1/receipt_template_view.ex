@@ -14,4 +14,11 @@ defmodule ApiWeb.API.V1.ReceiptTemplateView do
   links: [
     related: "/api/v1/receipt-templates/:id/campaigns"
   ]
+
+  has_one :receipt_stack,
+  serializer: ApiWeb.API.V1.ReceiptStackView,
+  identifiers: :when_included,
+  links: [
+    related: "/api/v1/receipt-template/:id/stack"
+  ]
 end
