@@ -30,6 +30,9 @@ defmodule Api.Organization do
     field :charitable_number, :string
     field :tenant_name, :string
     field :nationbuilder_token, :string
+    field :phone, :string
+    field :email, :string 
+    field :website, :string
 
     has_many :users, User
   end
@@ -50,7 +53,7 @@ defmodule Api.Organization do
 
   def update_changeset(%Organization{} = model, attrs) do
     model
-    |> cast(attrs, [:name, :nationbuilder_id, :address1, :address2, :city, :province, :country, :postal_code, :charitable_number])
+    |> cast(attrs, [:name, :nationbuilder_id, :address1, :address2, :city, :province, :country, :postal_code, :charitable_number, :phone, :email, :website])
     |> validate_required([:name, :nationbuilder_id, :address1, :city, :province, :country, :postal_code, :charitable_number])
   end
 

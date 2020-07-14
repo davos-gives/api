@@ -3,5 +3,5 @@ defmodule ApiWeb.API.V1.OrganizationView do
   use JaSerializer.PhoenixView
 
   location("/api/v1/organizations/:id")
-  attributes([:name, :nationbuilder_id, :address1, :address2, :city, :province, :country, :postal_code, :charitable_number])
+  attributes([:name, :nationbuilder_id, :address1, :address2, :city, :province, :country, :postal_code, :charitable_number, :email, :phone, :website])
 end

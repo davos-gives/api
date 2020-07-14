@@ -70,7 +70,19 @@
     <aside class="footer flex justify-between mx-16 content-center mt-6 text-sm">
       <address id="from">
         <div class="text-grey-700">
-          <p>(604) 123 4567<br />ian@barks-meows.org<br />barks-moeows.org</p>
+          <p>
+          <%= if @organization.phone do %> 
+            <%= @organization.phone %>
+            <br />
+          <% end %>
+           <%= if @organization.email do %> 
+            <%= @organization.email %>
+            <br />
+          <% end %>
+           <%= if @organization.website do %> 
+            <%= @organization.website %>
+          <% end %>
+          </p>
         </div>
       </address>
 
