@@ -9,9 +9,11 @@ config :api, Api.Repo,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
+  # config/dev.exs
 config :api, Api.Mailer,
   adapter: Bamboo.SendGridAdapter,
   api_key: "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"
+  
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
@@ -33,6 +35,7 @@ config :api, ApiWeb.Endpoint,
       cd: Path.expand("../assets", __DIR__)
     ]
   ]
+
 
 # ## SSL Support
 #

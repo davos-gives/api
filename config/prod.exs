@@ -13,6 +13,10 @@ config :api, ApiWeb.Endpoint,
   url: [host: "example.com", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
+config :api, Api.Mailer,
+  adapter: Bamboo.SendGridAdapter,
+  api_key: "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"
+
 # Do not print debug messages in production
 config :logger, level: :info
 

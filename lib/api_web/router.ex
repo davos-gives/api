@@ -2,6 +2,11 @@ defmodule ApiWeb.Router do
   use ApiWeb, :router
   import Phoenix.LiveDashboard.Router
 
+  if Mix.env == :dev do
+    # If using Phoenix
+    forward "/sent_emails", Bamboo.SentEmailViewerPlug
+  end
+
   pipeline :browser do
     plug(:accepts, ["html"])
     plug(:fetch_session)
@@ -59,7 +64,8 @@ defmodule ApiWeb.Router do
     get "/users/:user_id/organization", OrganizationController, :organization_for_user
     get "/receipt-templates/:receipt_template_id/campaigns", CampaignController, :campaigns_for_receipt
     get "/receipt-templates/:receipt_template_id/receipt-stack", ReceiptStackController, :stack_for_receipt
-    get "receipts/:receipt_id/download", ReceiptController, :download_receipt
+    get "/receipts/:receipt_id/download", ReceiptController, :download_receipt
+    get "/receipts/:receipt_id/resend", ReceiptController, :resend
 
     # Your protected API endpoints here
   end

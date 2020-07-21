@@ -48,13 +48,13 @@ defmodule Api.MixProject do
       {:cors_plug, "~> 1.2"},
       {:joken, "~> 1.5.0"},
       {:poison, "~> 4.0.1", override: true},
-      {:bamboo, "~> 1.2"},
       {:triplex, "~> 1.3.0"},
       {:puppeteer_pdf, "~> 1.0.3"},
       {:tesla, "~> 1.3.0"},
       {:hackney, "~> 1.15.2"},
       {:number, "~> 1.0.1"},
       {:pow, "~>1.0.20"},
+      {:bamboo, "~> 1.5"},
       {:oauth2, "~> 2.0"}
     ]
   end
