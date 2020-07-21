@@ -14,4 +14,4 @@ mix phx.digest
 # Build the release and overwrite the existing release directory
 MIX_ENV=prod mix release --overwrite
 
-_build/prod/rel/render/bin/render eval "Api.Release.migrate"
+_build/prod/rel/api/bin/api eval "Api.Release.migrate"
