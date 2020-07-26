@@ -20,14 +20,14 @@ config :api, Api.Mailer,
 # Do not print debug messages in production
 config :logger, level: :info
 
-# ## SSL Support
-#
+## SSL Support
+
 # To get SSL working, you will need to add the `https` key
 # to the previous section and set your `:url` port to 443:
-#
+
 #     config :api, ApiWeb.Endpoint,
 #       ...
-#       url: [host: "example.com", port: 443],
+#       url: [host: System.get_env("PUBLC_HOSTNAME") || System.get_env("RENDER_EXTERNAL_HOSTNAME") ||, port: 443],
 #       https: [
 #         :inet6,
 #         port: 443,
@@ -48,9 +48,9 @@ config :logger, level: :info
 #
 # We also recommend setting `force_ssl` in your endpoint, ensuring
 # no data is ever sent via http, always redirecting to https:
-#
-#     config :api, ApiWeb.Endpoint,
-#       force_ssl: [hsts: true]
+
+config :api, ApiWeb.Endpoint,
+  force_ssl: [hsts: true]
 #
 # Check `Plug.SSL` for all available options in `force_ssl`.
 
