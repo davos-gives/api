@@ -10,7 +10,7 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :api, ApiWeb.Endpoint,
-  url: [host: System.get_env("PUBLIC_HOSTNAME") || System.get_env("RENDER_EXTERNAL_HOSTNAME") || "localhost", port: 80],
+  url: [scheme: "https", host: System.get_env("PUBLIC_HOSTNAME") || System.get_env("RENDER_EXTERNAL_HOSTNAME") || "localhost", port: 443],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 config :api, Api.Mailer,
@@ -35,7 +35,7 @@ config :logger, level: :info
 #         keyfile: System.get_env("SOME_APP_SSL_KEY_PATH"),
 #         certfile: System.get_env("SOME_APP_SSL_CERT_PATH")
 #       ]
-#
+# #
 # The `cipher_suite` is set to `:strong` to support only the
 # latest and more secure SSL ciphers. This means old browsers
 # and clients may not be supported. You can set it to
