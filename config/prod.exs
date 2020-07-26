@@ -10,7 +10,7 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :api, ApiWeb.Endpoint,
-  url: [scheme: "https", host: System.get_env("RENDER_EXTERNAL_HOSTNAME") || "localhost", port: 443],
+  url: [scheme: "https", host: System.get_env("PUBLIC_HOSTNAME") || System.get_env("RENDER_EXTERNAL_HOSTNAME") || "localhost", port: 443],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 config :api, Api.Mailer,
