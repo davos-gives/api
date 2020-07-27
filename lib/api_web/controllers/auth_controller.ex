@@ -24,10 +24,10 @@ defmodule ApiWeb.AuthController do
   defp client(name, organization_id) do
     OAuth2.Client.new([
       strategy: OAuth2.Strategy.AuthCode,
-      client_id: "7f63a4ef4e8d0f10b4346a87b19829764362935b6d1a0116a14ee22b1fcc80f8",
-      client_secret: "d3b14cbf2e86f341d2de2505751aa7cea3b63d1883141687eb0cd162362bd83b",
+      client_id: System.get_env("NATIONBUILDER_ID") || "7f63a4ef4e8d0f10b4346a87b19829764362935b6d1a0116a14ee22b1fcc80f8",
+      client_secret: System.get_env("NATIONBUILDER_SECRET") || "d3b14cbf2e86f341d2de2505751aa7cea3b63d1883141687eb0cd162362bd83b",
       site: "https://#{name}.nationbuilder.com",
-      redirect_uri: "http://localhost:4000/auth/callback?organization_id=#{organization_id}"
+      redirect_uri: "#{System.get_env("NATIONBUILDER_REDIRECT")}?organization_id=#{organization_id}"
     ])
   end
 end
