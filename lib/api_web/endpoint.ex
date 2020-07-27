@@ -42,7 +42,8 @@ defmodule ApiWeb.Endpoint do
     key: "_api_key",
     signing_salt: "CyOBCEYe"
 
-  plug ApiWeb.Router
+  plug CORSPlug, origins: "*"
 
+  plug ApiWeb.Router
   socket "/live", Phoenix.LiveView.Socket
 end
