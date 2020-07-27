@@ -18,7 +18,7 @@ defmodule ApiWeb.AuthController do
 
     {:ok, new_organization} = Organization.nationbuilder_update_organization(organization, %{nationbuilder_token: new_token["access_token"]})
     Api.Nationbuilder.ServicesSupervisor.start_worker_for_organization(new_organization)
-    redirect(conn, external: "http://localhost:4200")
+    redirect(conn, external: "https://staging.davos.gives")
   end
 
   defp client(name, organization_id) do
