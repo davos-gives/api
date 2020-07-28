@@ -11,7 +11,6 @@ defmodule Api.Nationbuilder.TransactionServer do
   alias Api.Organization.Campaign
   alias Api.Organization.Slug
 
-  import IEx
   import Logger
 
   defmodule State do

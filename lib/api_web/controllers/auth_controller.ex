@@ -3,8 +3,6 @@ defmodule ApiWeb.AuthController do
 
   alias Api.Organization
 
-  import IEx
-
   def index(conn, %{"organization_id" => organization_id} = params) do
     organization = Organization.get_organization!(organization_id)
     redirect(conn, external: OAuth2.Client.authorize_url!(client(organization.nationbuilder_id, organization_id)))

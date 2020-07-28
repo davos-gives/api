@@ -10,7 +10,6 @@ defmodule Api.Donation.Donor do
   alias Api.Donation.Donor
 
   import Ecto.Query
-  import IEx
 
   schema "donors" do
     field :email, :string

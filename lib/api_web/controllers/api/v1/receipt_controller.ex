@@ -3,8 +3,6 @@ defmodule ApiWeb.API.V1.ReceiptController do
 
   plug :get_database_prefix
 
-  import IEx
-
   alias Api.Organization
 
   def index(conn, params) do

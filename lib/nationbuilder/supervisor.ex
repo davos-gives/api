@@ -3,8 +3,6 @@ defmodule Api.Nationbuilder.ServicesSupervisor do
 
   alias Api.Organization
 
-  import IEx
-
   def start_link([]) do
     DynamicSupervisor.start_link(__MODULE__, :ok, name: __MODULE__)
   end

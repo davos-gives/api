@@ -11,8 +11,6 @@ defmodule Api.Donation.Receipt do
   alias Api.Organization.ReceiptStack
   alias Api.Donation
 
-  import IEx
-
   schema "receipts" do
     field :charitable_registration_number, :string
     field :receipt_number, :string

@@ -4,8 +4,6 @@ defmodule ApiWeb.API.V1.LogoController do
   alias Api.Organization
   alias Api.Organization.Logo
 
-  import IEx
-
   plug :get_database_prefix
 
   def index(conn, params) do

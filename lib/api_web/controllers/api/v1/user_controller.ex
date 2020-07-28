@@ -4,8 +4,6 @@ defmodule ApiWeb.API.V1.UserController do
   alias Api.Organization.User
   alias Api.Organization
 
-  import IEx
-
   def current_user(conn, %{}) do    
     conn 
     |> render("show.json-api", data: conn.assigns.current_user)

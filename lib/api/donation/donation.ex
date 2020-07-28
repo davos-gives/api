@@ -3,8 +3,7 @@ defmodule Api.Donation do
 
   import Ecto.Changeset
   import Ecto.Query, only: [last: 1]
-  import IEx
-
+  
   alias Api.Repo
   alias Api.Donation
 

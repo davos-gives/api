@@ -1,6 +1,5 @@
 defmodule Api.FileStore do
 
-  import IEx;
   @doc """
     Returns {:ok, file_id} on success, {:error, reason} on failure
   """

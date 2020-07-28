@@ -3,8 +3,6 @@ defmodule ApiWeb.API.V1.OrganizationController do
 
   alias Api.Organization
   
-  import IEx
-
   def show(conn, %{"id" => id}) do
     organization = Organization.get_organization!(id)
     render(conn, "show.json-api", data: organization)

@@ -5,8 +5,6 @@ defmodule ApiWeb.API.V1.RegistrationController do
   alias Plug.Conn
   alias Api.ErrorHelpers
 
-  import IEx
-
   def create(conn, user_params) do
     conn
     |> Pow.Plug.create_user(user_params)

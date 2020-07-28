@@ -3,8 +3,6 @@ defmodule ApiWeb.API.V1.ReceiptStackController do
 
   alias Api.Organization
   alias Api.Organization.ReceiptStack
-
-  import IEx
   
   plug :get_database_prefix
 
