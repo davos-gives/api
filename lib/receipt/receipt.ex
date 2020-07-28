@@ -23,7 +23,7 @@ defmodule Api.Receipt do
 
     file = Api.FileStore.get_file(Path.absname("receipts"), file_id)
 
-    Api.Email.create_receipt_email(file, receipt, organization)
+    Api.Email.create_receipt_email(file, receipt, receipt_template, organization)
     |> Api.Mailer.deliver_later()
 
     {:ok, file_id}

@@ -27,7 +27,7 @@ defmodule ApiWeb.API.V1.ReceiptController do
     file = Api.FileStore.get_file(Path.absname("receipts"), receipt.file_id)
     organization = Organization.get_organization!(conn.assigns.current_user.organization_id)
     
-    Api.Email.create_receipt_email(file, receipt, organization)
+    Api.Email.create_receipt_email(file, receipt, %{description: "Here is the receipt that you requested from #{organization.name}"}, organization)
     |> Api.Mailer.deliver_later()
 
     conn

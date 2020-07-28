@@ -16,7 +16,6 @@ defmodule Api.Organization do
   alias Ecto.Multi
 
   import Ecto.Query
-  import IEx
 
   schema "organizations" do
     field :name, :string
