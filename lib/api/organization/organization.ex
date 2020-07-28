@@ -43,6 +43,7 @@ defmodule Api.Organization do
     |> put_assoc(:users, [current_user])
     |> create_tenant
     |> validate_required([:name, :nationbuilder_id, :tenant_name])
+    |> unique_constraint(:name)
   end
 
   def nationbuilder_changeset(%Organization{} = model, attrs) do
